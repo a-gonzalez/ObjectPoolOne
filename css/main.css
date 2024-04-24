@@ -1,0 +1,31 @@
+body
+{
+    background-color: #000000;
+}
+
+#screen
+{
+    background: url("/img/background.png");
+    border: 2px solid #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#asteroid
+{
+    display: none;
+}
+
+/*#screen
+{
+    border: 3px solid #ffa500;
+    background-color: #0000ff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 700px;
+    width: 500px;
+}*/
