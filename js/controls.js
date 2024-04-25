@@ -1,8 +1,10 @@
 export default class Controls
 {
-    constructor(/*game*/)
+    constructor(game)
     {
-        //this.game = game;
+        console.log(`Controls .ctor @ ${new Date().toLocaleString()}`);
+
+        this.game = game;
         this.keys = [];
 
         window.addEventListener("keydown", (event) =>
@@ -16,13 +18,17 @@ export default class Controls
                 //this.game.claves.push(event.key);
                 this.keys.push(event.key);
             }
-            /*else if (event.key === " ")
-            { // attack
-                
-            }
             else if (event.key === "d")
             {
                 this.game.debug = !this.game.debug;
+            }
+            else if (event.key === "r")
+            {
+                window.location.reload();
+            }
+            /*else if (event.key === " ")
+            { // attack
+                
             }
             else if (event.key === "s")
             {
@@ -43,10 +49,7 @@ export default class Controls
             {
                 this.game.game_over = true;
             }*/
-            else if (event.key === "r")
-            {
-                window.location.reload();
-            }
+            
         });
 
         window.addEventListener("keyup", (event) =>

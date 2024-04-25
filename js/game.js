@@ -1,20 +1,24 @@
 import Asteroid from "./asteroid.js";
+import Controls from "./controls.js";
 
 export default class Game
 {
     constructor(width, height)
     {
-        console.log(`Game .tor @ ${new Date().toLocaleString()}`);
+        console.log(`Game .ctor @ ${new Date().toLocaleString()}`);
 
+        this.debug = false;
         this.width = width;
         this.height = height;
 
         this.piscinam = [];
-        this.asteroids = 3;
+        this.asteroids = 15;
         this.asteroid_timer = 0;
         this.asteroid_interval = 1000;
 
         this.crearePiscinam();
+
+        this.controls = new Controls(this);
     }
 
     draw(context)
@@ -50,7 +54,7 @@ export default class Game
     {
         for (let index = 0; index < this.asteroids; index++)
         {
-            this.piscinam.push(new Asteroid(this));
+            this.piscinam.push(new Asteroid(this, index));
         }
     }
 
