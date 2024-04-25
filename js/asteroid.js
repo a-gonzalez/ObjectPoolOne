@@ -9,7 +9,7 @@ export default class Asteroid
         this.width = 150;
         this.height = 155;
         this.radius = 75;
-        this.speed = 0.5;
+        //this.speed = 0.5;
         this.free = true;
         this.speed = Math.random() * 1.5 + 0.1; // 0.1 and 1.6 pixels per animation frame
         //this.x = Math.random() * this.game.width;
