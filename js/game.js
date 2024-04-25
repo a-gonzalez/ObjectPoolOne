@@ -1,5 +1,5 @@
 import Asteroid from "./asteroid.js";
-import Controls from "./controls.js";
+//import Controls from "./controls.js";
 
 export default class Game
 {
@@ -18,7 +18,7 @@ export default class Game
 
         this.crearePiscinam();
 
-        this.controls = new Controls(this);
+        //this.controls = new Controls(this);
     }
 
     draw(context)
@@ -78,9 +78,13 @@ export default class Game
         
         //this.asteroid.draw(context);
 
-        this.piscinam.forEach((asteroid) =>
+        /*this.piscinam.forEach((asteroid) =>
         {
             asteroid.draw(context);
-        });
+        });*/
+        context.font = '20px Arial';
+        context.textAlign = "center";
+        context.fillStyle = "#ff1111";
+        context.fillText(`Testing @ ${new Date().toLocaleString()}`, 300, 400);
     }
 }
