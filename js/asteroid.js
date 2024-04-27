@@ -16,34 +16,37 @@ export default class Asteroid
         this.angle = 0;
         this.va = Math.random() * 0.02 - 0.01;
 
-        this.image = document.getElementById("asteroid");
+        this.image = new Image(this.width, this.height);
+        this.image.src = "img/asteroid.png";
     }
 
     draw(context)
     {
         if (!this.free)
         {
-            /*if (this.game.debug)
+            if (this.game.debug)
             {
                 context.beginPath();
-                context.strokeStyle = "#ff1111";
+                context.strokeStyle = "#00ff00";
                 context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 context.stroke();
-            }*/
+            }
             context.save();
             context.translate(this.x, this.y);
             context.rotate(this.angle);
-            context.drawImage(this.image, 0 - this.width * 0.5, 0 - this.height * 0.5, this.width, this.height);
+            context.drawImage(this.image, -this.width * 0.5, -this.height * 0.5, this.width, this.height);
             context.restore();
 
-            /*if (this.game.debug)
+            if (this.game.debug)
             {
-                context.font = '20px Arial';
+                context.font = '18px Arial';
                 context.textAlign = "center";
-                context.fillStyle = "#ff1111";
-                context.fillText(`Index: ${this.index}`, this.x, this.y);
-                context.fillText(`Speed: ${this.speed.toFixed(4)}`, this.x, this.y + 20);
-            }*/
+                context.fillStyle = "#ffffff";
+                context.fillText(`Designation: ${this.index}`, this.x, this.y - 20);
+                context.fillText(`Speed: ${this.speed.toFixed(4)}`, this.x, this.y);
+                context.fillText(`Angle: ${this.angle.toFixed(4)}`, this.x, this.y + 20);
+                context.fillText(`X: ${this.x.toFixed(0)} Y: ${this.y.toFixed(0)}`, this.x, this.y + 40);
+            }
         }
     }
 
@@ -60,7 +63,7 @@ export default class Asteroid
 
                 const explosion = this.game.getExplosionFromPool();
 
-                if (explosion) explosion.wake(this.x, this.y);
+                if (explosion) explosion.wake(this.x, this.y, 0);
             }
         }
     }

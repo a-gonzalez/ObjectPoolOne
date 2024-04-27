@@ -1,5 +1,6 @@
 import Asteroid from "./asteroid.js";
 import Explosion from "./explosion.js";
+import Sound from "./sound.js";
 import Click from "./click.js";
 //import Controls from "./controls.js";
 
@@ -9,16 +10,19 @@ export default class Game
     {
         console.log(`Game .ctor @ ${new Date().toLocaleString()}`);
 
-        this.debug = false;
+        this.debug = true;
         this.width = width;
         this.height = height;
+        this.over = false;
+        this.score = 0;
 
         this.asteroids = [];
-        this.asteroid_max = 15;
+        this.asteroid_max = 5;
         this.asteroid_timer = 0;
         this.asteroid_interval = 1000;
         this.explosions = [];
         this.explosion_max = 10;
+        this.sounds = [];
 
         // create object pools
         this.createAsteroidPool();
@@ -28,16 +32,40 @@ export default class Game
 
         //this.controls = new Controls(this);
 
-        window.addEventListener("click", (event) =>
+        addEventListener("click", (event) =>
         {// full-screen we would use x and y properties
             this.click.x = event.offsetX;
             this.click.y = event.offsetY;
 
-            //console.log(this.click);
+            this.asteroids.forEach((asteroid) =>
+            {
+                if (!asteroid.free && this.isCollision(asteroid, this.click))
+                {
+                    const explosion = this.getExplosionFromPool();
 
-            const explosion = this.getExplosionFromPool();
+                    if (explosion)
+                    {
+                        explosion.wake(this.click.x, this.click.y, asteroid.speed);
+                        asteroid.sleep();
 
-            if (explosion) explosion.wake(this.click.x, this.click.y);
+                        ++this.score;
+                    }
+                }
+            });
+
+            /*this.asteroids.filter((asteroid) => // let's work only with active asteroids
+            {
+                return !asteroid.free;
+            })
+            .forEach((asteroid) =>
+            {
+                if (this.isCollision(asteroid, this.click))
+                {
+                    const explosion = this.getExplosionFromPool();
+
+                    if (explosion) explosion.wake(this.click.x, this.click.y);
+                }
+            });*/
         });
     }
 
@@ -52,6 +80,13 @@ export default class Game
         {
             explosion.draw(context);
         });
+
+        context.font = '20px Arial';
+        context.textAlign = "center";
+        context.fillStyle = "#ff0000";
+        //context.fillText(`Score:   ${this.score}`, 50, 30); // bug
+        context.fillText("Score:", 50, 30);
+        context.fillText(`   ${this.score}`, 100, 30);
     }
 
     update(delta_time)
@@ -90,9 +125,19 @@ export default class Game
 
     createExplosionPool()
     {
+        this.createSoundPool();
+
         for (let index = 0; index < this.explosion_max; index++)
         {
             this.explosions.push(new Explosion(this));
+        }
+    }
+
+    createSoundPool()
+    {
+        for (let index = 0; index < 6; index++)
+        {
+            this.sounds.push(new Sound(`aud/sound_${index}.wav`));
         }
     }
 

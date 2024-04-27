@@ -17,7 +17,13 @@ export default class Explosion
         this.animation_timer = 0;
         this.animation_interval = 1000 / 30;
 
-        this.image = document.getElementById("explosions");
+        //this.image = document.getElementById("explosions");
+        this.image = new Image(this.width, this.height);
+        this.image.src = "img/explosions.png";
+
+        this.sound = this.game.sounds[Math.floor(Math.random() * this.game.sounds.length)];
+
+        console.log(this.sound);
     }
 
     draw(context)
@@ -32,6 +38,8 @@ export default class Explosion
     {
         if (!this.free)
         {
+            this.x += this.speed;
+
             if (this.animation_timer > this.animation_interval)
             {
                 this.frame_x++;
@@ -47,17 +55,25 @@ export default class Explosion
         }
     }
 
+    play()
+    {
+        this.sound.play();
+    }
+
     sleep()
     {
         this.free = true;
     }
 
-    wake(x, y)
+    wake(x, y, speed)
     {
         this.free = false;
         this.x = x;
         this.y = y;
         this.frame_x = 0;
         this.frame_y = Math.floor(Math.random() * 3);
+        this.speed = speed;
+        this.sound = this.game.sounds[Math.floor(Math.random() * this.game.sounds.length)]
+        this.play();
     }
 }
