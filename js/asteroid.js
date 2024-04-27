@@ -8,7 +8,7 @@ export default class Asteroid
         this.index = index;
         this.width = 150;
         this.height = 155;
-        this.radius = 45;
+        this.radius = 75;
         this.free = true;
         this.speed = Math.random() * 1.5 + 0.1; // 0.1 and 1.6 pixels per animation frame
         this.x = this.radius;
@@ -16,8 +16,7 @@ export default class Asteroid
         this.angle = 0;
         this.va = Math.random() * 0.02 - 0.01;
 
-        this.image = new Image(this.width, this.height);
-        this.image.src = "./img/asteroid.png";
+        this.image = document.getElementById("asteroid");
     }
 
     draw(context)
@@ -50,25 +49,28 @@ export default class Asteroid
 
     update(delta_time)
     {
-        this.angle += this.va;
-
         if (!this.free)
         {
+            this.angle += this.va;
             this.x += this.speed;
 
-            if (this.x > this.game.width + this.radius)
+            if (this.x > this.game.width - this.radius)
             {
-                this.sonno();
+                this.sleep();
+
+                const explosion = this.game.getExplosionFromPool();
+
+                if (explosion) explosion.wake(this.x, this.y);
             }
         }
     }
 
-    sonno()
+    sleep()
     {
         this.free = true;
     }
 
-    vigilans()
+    wake()
     {
         this.free = false;
         //this.x = 0;
